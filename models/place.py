@@ -25,4 +25,4 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     #city = relationship('City', back_populates='places')
     amenity_ids = []
-    #reviews = relationship('Review', back_populates='place')
+    reviews = relationship('Review', back_populates='place')
