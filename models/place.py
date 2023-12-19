@@ -68,22 +68,38 @@ class Place(BaseModel, Base):
                primary_key=True
                )
     )
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship("Review", cascade='all, delete, delete-orphan',
+                               backref="place")
 
-    if getenv('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship(
-            'Review',
-            backref='place',
-            cascade='all, delete'
-        )
-
-        amenities = relationship(
-            'Amenity',
-            secondary=place_amenity,
-            viewonly=False
-        )
+        amenities = relationship("Amenity", secondary=place_amenity,
+                                 viewonly=False,
+                                 back_populates="place_amenities")
     else:
         @property
         def reviews(self):
-            objs = models.storage.all(Review)
-            return [v for k, v in obj.items() if v.place_id == self.id]
+            """ Returns list of reviews.id """
+            var = models.storage.all()
+            lista = []
+            result = []
+            for key in var:
+                review = key.replace('.', ' ')
+                review = shlex.split(review)
+                if (review[0] == 'Review'):
+                    lista.append(var[key])
+            for elem in lista:
+                if (elem.place_id == self.id):
+                    result.append(elem)
+            return (result)
+
+        @property
+        def amenities(self):
+            """ Returns list of amenity ids """
+            return self.amenity_ids
+
+        @amenities.setter
+        def amenities(self, obj=None):
+            """ Appends amenity ids to the attribute """
+            if type(obj) is Amenity and obj.id not in self.amenity_ids:
+                self.amenity_ids.append(obj.id)
 
