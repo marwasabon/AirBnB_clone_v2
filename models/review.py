@@ -25,4 +25,4 @@ class Review(BaseModel, Base):
         nullable=False
     )
     #user = relationship('User', back_populates='reviews')
-    #place = relationship('Place', back_populates='reviews')
+    place = relationship('Place', back_populates='reviews')
