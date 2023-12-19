@@ -52,7 +52,7 @@ class Place(BaseModel, Base):
                 review_list.append(str(v))
         return (review_list)
         '''
-    reviews = relationship('Review', back_populates='place')
+    #reviews = relationship('Review', back_populates='place')
     place_amenity = Table(
         'place_amenity',
         metadata,
