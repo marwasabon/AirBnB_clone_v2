@@ -24,7 +24,7 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     #city = relationship('City', back_populates='places')
-
+    amenity_ids = []
 
     '''
     #city_id = ""
@@ -60,14 +60,12 @@ class Place(BaseModel, Base):
             'place_id',
             String(60),
             ForeignKey('places.id'),
-            primary_key=True
-        ),
+            primary_key=True, nullable=False),
         Column('amenity_id',
                String(60),
                ForeignKey('amenities.id'),
-               primary_key=True
-               )
-    )
+               primary_key=True, nullable=False))
+
     if getenv("HBNB_TYPE_STORAGE") == "db":
         reviews = relationship("Review", cascade='all, delete, delete-orphan',
                                backref="place")
