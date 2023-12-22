@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
-import cmd, re
+import cmd
+import re
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -113,13 +114,12 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        str_r = "^\"\w+\"$"
+        str_r = "^\"([aA-zZ0-9-_%$=&#@]+)?\"$"
         str_quoted = r"^\"(\w+)?\\([\\\"])+\w+(\\\")?(\w+)?\"$"
-        int_r = "^[+-]?[0-9]+(\.?[0-9]+)?$"
+        int_r = r"^[+-]?[0-9]+(\.?[0-9]+)?$"
         input_arr = args.split(' ')
         class_type = input_arr[0]
-
-        if not args:
+        if len(input_arr) == 1 or not args:
             print("** class name missing **")
             return
         elif input_arr[0] not in HBNBCommand.classes:
@@ -134,8 +134,9 @@ class HBNBCommand(cmd.Cmd):
             if re.match(str_r, value):
                 value = re.sub(r'[\"]', '', value)
                 if '_' in value:
-                   value = value.replace('_', ' ')
-                   setattr(new_instance, key, value)
+                    value = value.replace('_', ' ')
+                    print(value)
+                    setattr(new_instance, key, value)
                 else:
                     setattr(new_instance, key, value)
             elif re.match(int_r, value):
@@ -147,9 +148,8 @@ class HBNBCommand(cmd.Cmd):
                 value = re.sub(r'_', ' ', value)
                 value = re.sub(r'[\\]|^\"|\"$', '', value)
                 setattr(new_instance, key, value)
-        storage.save()
+        new_instance.save()
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -231,13 +231,26 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+            stored_obj = storage.all(HBNBCommand.classes[args])
+            type_of_storage = type(stored_obj)
+            if type_of_storage == list:
+                for row in stored_obj:
+                    for k, v in row.items():
+                        if k.split('.')[0] == args:
+                            print_list.append(str(v))
+            else:
+                for k, v in stored_obj.items():
+                    if k.split('.')[0] == args:
+                        print_list.append(str(v))
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
+            stored_obj = storage.all()
+            if type(stored_obj) == dict:
+                for k, v in stored_obj.items():
+                    print_list.append(str(v))
+            else:
+                for row in stored_obj:
+                    for col in row:
+                        print_list.append(str(col))
         print(print_list)
 
     def help_all(self):
@@ -344,6 +357,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
