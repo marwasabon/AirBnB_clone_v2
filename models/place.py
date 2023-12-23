@@ -1,18 +1,37 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 
-class Place(BaseModel):
+class Place(BaseModel, Base):
     """ A place to stay """
-    city_id = ""
-    user_id = ""
-    name = ""
-    description = ""
-    number_rooms = 0
-    number_bathrooms = 0
-    max_guest = 0
-    price_by_night = 0
-    latitude = 0.0
-    longitude = 0.0
-    amenity_ids = []
+    __tablename__ = 'place'
+    '''
+    #city_id = ""
+    #user_id = ""
+    #name = ""
+    #description = ""
+    #number_rooms = 0
+    #number_bathrooms = 0
+    #max_guest = 0
+    #price_by_night = 0
+    #latitude = 0.0
+    #longitude = 0.0
+    #amenity_ids = []
+    '''
+    '''
+    @property
+    def reviews(self):
+        returns the list of review instances with
+        place_id equal the current place.id
+        cur_id = self.id
+        review_list = []
+        objs = storage.all('Review')
+        for k, v in obj.items():
+            if v.place_id == cur_id:
+                review_list.append(str(v))
+        return (review_list)
+        '''
+    reviews = relationship('Review', back_populates='place')

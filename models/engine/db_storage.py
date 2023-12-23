@@ -61,6 +61,7 @@ class DBStorage:
         '''
         add obj to current session
         '''
+        print(obj)
         self.__session().add(obj)
 
     def save(self):

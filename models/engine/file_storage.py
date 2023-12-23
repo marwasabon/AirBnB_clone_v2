@@ -35,7 +35,7 @@ class FileStorage:
                         }
             else:
                 return dict()
-        return self.__objects 
+        return self.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
