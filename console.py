@@ -3,6 +3,7 @@
 import cmd
 import re
 import sys
+import string
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -114,7 +115,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        str_r = "^\"([aA-zZ0-9-_%$=&#@]+)?\"$"
+        str_r = r"^\"([aA-zZ0-9\S]+)?\"$"
         str_quoted = r"^\"(\w+)?\\([\\\"])+\w+(\\\")?(\w+)?\"$"
         int_r = r"^[+-]?[0-9]+(\.?[0-9]+)?$"
         input_arr = args.split(' ')
@@ -135,7 +136,6 @@ class HBNBCommand(cmd.Cmd):
                 value = re.sub(r'[\"]', '', value)
                 if '_' in value:
                     value = value.replace('_', ' ')
-                    print(value)
                     setattr(new_instance, key, value)
                 else:
                     setattr(new_instance, key, value)
