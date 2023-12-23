@@ -4,6 +4,7 @@ import cmd
 import re
 import sys
 import string
+import os
 from models.base_model import BaseModel
 from models.__init__ import storage
 from models.user import User
@@ -120,8 +121,21 @@ class HBNBCommand(cmd.Cmd):
         int_r = r"^[+-]?[0-9]+(\.?[0-9]+)?$"
         input_arr = args.split(' ')
         class_type = input_arr[0]
+        '''
+        This function needs to be refactored so bad but for now
+        just working is fine
+        '''
         if len(input_arr) == 1 or not args:
-            print("** class name missing **")
+            if args and os.getenv('HBNB_TYPE_STORAGE') is None:
+                if input_arr[0] not in HBNBCommand.classes:
+                    print("** class doesn't exist **")
+                    return
+                new_instance = HBNBCommand.classes[input_arr[0]]()
+                new_instance.save()
+                print(new_instance.id)
+                return
+            else:
+                print("** class name missing **")
             return
         elif input_arr[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
