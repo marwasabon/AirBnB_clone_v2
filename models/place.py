@@ -24,8 +24,8 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     #city = relationship('City', back_populates='places')
-
-
+    amenity_ids = []
+    reviews = relationship('Review', back_populates='place')
     '''
     #city_id = ""
     #user_id = ""
@@ -52,7 +52,7 @@ class Place(BaseModel, Base):
                 review_list.append(str(v))
         return (review_list)
         '''
-    reviews = relationship('Review', back_populates='place')
+    '''reviews = relationship('Review', back_populates='place')
     place_amenity = Table(
         'place_amenity',
         metadata,
@@ -86,4 +86,4 @@ class Place(BaseModel, Base):
         def reviews(self):
             objs = models.storage.all(Review)
             return [v for k, v in obj.items() if v.place_id == self.id]
-
+    '''
