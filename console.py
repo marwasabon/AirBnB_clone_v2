@@ -120,50 +120,47 @@ class HBNBCommand(cmd.Cmd):
         str_quoted = r"^\"(\w+)?\\([\\\"])+\w+(\\\")?(\w+)?\"$"
         int_r = r"^[+-]?[0-9]+(\.?[0-9]+)?$"
         input_arr = args.split(' ')
+        num_args = len(input_arr)
         class_type = input_arr[0]
-        '''
-        This function needs to be refactored so bad but for now
-        just working is fine
-        '''
-        if len(input_arr) == 1 or not args:
-            if args and os.getenv('HBNB_TYPE_STORAGE') is None:
-                if input_arr[0] not in HBNBCommand.classes:
-                    print("** class doesn't exist **")
-                    return
-                new_instance = HBNBCommand.classes[input_arr[0]]()
-                new_instance.save()
-                print(new_instance.id)
-                return
-            else:
-                print("** class name missing **")
+        storage_type = os.getenv('HBNB_TYPE_STORAGE')
+        cls_dict = HBNBCommand.classes
+        if not args:
+            print("** class name missing **")
             return
-        elif input_arr[0] not in HBNBCommand.classes:
+        elif class_type not in cls_dict:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[input_arr[0]]()
-        for i in range(1, len(input_arr)):
-            try:
-                key, value = tuple(input_arr[i].split('='))
-            except Exception:
-                continue
-            if re.match(str_r, value):
-                value = re.sub(r'[\"]', '', value)
-                if '_' in value:
-                    value = value.replace('_', ' ')
+        elif num_args > 1:
+            new_instance = cls_dict[class_type]()
+            for i in range(1, num_args):
+                try:
+                    key, value = tuple(input_arr[i].split('='))
+                except Exception:
+                    continue
+                if re.match(str_r, value):
+                    value = re.sub(r'[\"]', '', value)
+                    if '_' in value:
+                        value = value.replace('_', ' ')
+                        setattr(new_instance, key, value)
+                    else:
+                        setattr(new_instance, key, value)
+                elif re.match(int_r, value):
+                    if '.' in value:
+                        setattr(new_instance, key,  float(value))
+                    else:
+                        setattr(new_instance, key, int(value))
+                elif re.match(str_quoted, value):
+                    value = re.sub(r'_', ' ', value)
+                    value = re.sub(r'[\\]|^\"|\"$', '', value)
                     setattr(new_instance, key, value)
-                else:
-                    setattr(new_instance, key, value)
-            elif re.match(int_r, value):
-                if '.' in value:
-                    setattr(new_instance, key,  float(value))
-                else:
-                    setattr(new_instance, key, int(value))
-            elif re.match(str_quoted, value):
-                value = re.sub(r'_', ' ', value)
-                value = re.sub(r'[\\]|^\"|\"$', '', value)
-                setattr(new_instance, key, value)
+        elif num_args == 1 and storage_type is None:
+            new_instance = cls_dict[class_type]()
+        else:
+            return
+
         new_instance.save()
         print(new_instance.id)
+        '''if no condition is met just return'''
 
     def help_create(self):
         """ Help information for the create method """
