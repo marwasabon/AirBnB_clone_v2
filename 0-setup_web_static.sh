@@ -13,7 +13,7 @@ chgrp -R ubuntu /data/
 # Nginx Server Configuration.
 DR="/data/web_static"
 DEST="/etc/nginx"
-Static="/var/www/default"
+Static="/var/www/html"
 echo "server  {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -23,7 +23,7 @@ echo "server  {
         root $Static;
 
         location / {
-                index index.html index.html;
+                index index.nginx-debian.html index.html index.html;
         }
 
         location /hbnb_static/ {
