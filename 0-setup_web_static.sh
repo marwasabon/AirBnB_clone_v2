@@ -18,6 +18,7 @@ echo "server  {
         listen 80 default_server;
         listen [::]:80 default_server;
         server_name localhost;
+	add_header X-Served-By $HOSTNAME;
         error_page 404 /page_not_found.html;
         root $Static;
 
