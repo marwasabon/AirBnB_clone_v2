@@ -1,10 +1,21 @@
 #!/usr/bin/env bash
+# this script is used to configuer the bnb static task
 apt-get update
 apt-get install -y nginx
 
 mkdir -p /data/web_static/releases/test/
 mkdir -p /data/web_static/shared/
-echo "Holberton School" > /data/web_static/releases/test/index.html
+cat << EOF > /data/web_static/releases/test/index.html
+<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body>
+</html>
+EOF
+
+#echo "Holberton School" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 
 chown -R ubuntu /data/
