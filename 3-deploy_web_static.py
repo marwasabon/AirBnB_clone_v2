@@ -8,6 +8,7 @@ from datetime import datetime
 
 env.hosts = ['54.237.44.169', '34.204.95.33']
 
+
 def do_pack():
     """ Funciton to pack the web_static directory into a tar.gz
     for deployment to remote servers.
@@ -54,9 +55,9 @@ def do_deploy(archive_path):
 def deploy():
     """ Function to pack and deploy
     """
-    path = do_pack()
-    print(path)
-    if path:
-        dp = do_deploy(path)
-        return dp
-    return False
+
+    file = do_pack()
+    print(file)
+    if file is None:
+        return False
+    return do_deploy(file)
