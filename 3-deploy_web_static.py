@@ -29,7 +29,7 @@ def do_deploy(archive_path):
     then unpack and move the content to its destination
 
     Returns:
-        Boolean : True on sucess well Fale
+        Boolean : True on sucess false on fail
     """
     try:
         open(archive_path)
@@ -56,8 +56,8 @@ def deploy():
     """ Function to pack and deploy
     """
 
-    file = do_pack()
-    print(file)
+    file_path = do_pack()
+    print(file_path)
     if file is None:
         return False
-    return do_deploy(file)
+    return do_deploy(file_path)
