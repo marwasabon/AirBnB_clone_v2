@@ -8,7 +8,6 @@ from datetime import datetime
 
 env.hosts = ['54.237.44.169', '34.204.95.33']
 
-@runs_once
 def do_pack():
     """ Funciton to pack the web_static directory into a tar.gz
     for deployment to remote servers.
