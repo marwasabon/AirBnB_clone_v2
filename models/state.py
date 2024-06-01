@@ -6,6 +6,7 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 from os import getenv
 from models.city import City
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
@@ -23,4 +24,3 @@ class State(BaseModel, Base):
             ls = [v for k, v in obj.items() if v.state_id == self.id]
             sorted(ls, key=lambda city: city.name)
             return ls
-

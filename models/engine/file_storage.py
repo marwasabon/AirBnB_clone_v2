@@ -11,6 +11,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
@@ -67,7 +68,7 @@ class FileStorage:
                   }
         try:
             temp = {}
-            with open(FileStorage.__file_path, 'r',encoding="UTF-8") as f:
+            with open(FileStorage.__file_path, 'r', encoding="UTF-8") as f:
                 temp = json.load(f)
                 for key, val in temp.items():
                     self.all()[key] = classes[val['__class__']](**val)
@@ -83,8 +84,7 @@ class FileStorage:
             # shouldnt do anyhting
             except Exception:
                 pass
-    
+
     def close(self):
         """ calls reload"""
         self.reload()
-
