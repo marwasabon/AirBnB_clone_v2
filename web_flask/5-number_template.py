@@ -2,6 +2,7 @@
 """a Flask web application."""
 # python script to add route '/hbnb' that returns HBNB
 from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -43,7 +44,7 @@ def is_int_number(n):
         abort(404)
 
 
-@app.route('/number_template/<n>')
+@app.route('/number_template/<n>', strict_slashes=False)
 def render_is_number(n):
     '''checks if n is a int number'''
     try:
