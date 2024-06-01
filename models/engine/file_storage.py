@@ -83,3 +83,8 @@ class FileStorage:
             # shouldnt do anyhting
             except Exception:
                 pass
+    
+    def close(self):
+        """ calls reload"""
+        self.reload()
+
