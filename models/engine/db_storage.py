@@ -39,6 +39,25 @@ class DBStorage:
             metadata.reflect()
             metadata.drop_all()
 
+    '''def alls(self, cls=None):
+        collection = dict()
+        if cls:
+            if type(cls) is not str:
+                session = self.__session.query(cls)
+            else:
+                session = self.__session.query(self.__all_classes[cls])
+            for entity in session:
+                key = '{}.{}'.format(entity.__class__.__name__, entity.id)
+                collection.update({key: entity})
+        else:
+            for k, obj in self.__all_classes.items():
+                session = self.__session.query(obj).all()
+                for entity in session:
+                    key = '{}.{}'.format(entity.__class__.__name__, entity.id)
+                    collection.update({key: entity})
+
+        return collection'''
+
     def all(self, cls=None):
         '''
         returns a list of objects
