@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""a Flask web application"""
 # Python script run a flask server with a route to return hello
 from flask import Flask
 
