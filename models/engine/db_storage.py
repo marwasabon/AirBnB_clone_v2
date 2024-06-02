@@ -39,7 +39,7 @@ class DBStorage:
             metadata.reflect()
             metadata.drop_all()
 
-    '''def alls(self, cls=None):
+    def all(self, cls=None):
         collection = dict()
         if cls:
             if type(cls) is not str:
@@ -56,9 +56,9 @@ class DBStorage:
                     key = '{}.{}'.format(entity.__class__.__name__, entity.id)
                     collection.update({key: entity})
 
-        return collection'''
+        return collection
 
-    def all(self, cls=None):
+    def alls(self, cls=None):
         '''
         returns a list of objects
         '''
