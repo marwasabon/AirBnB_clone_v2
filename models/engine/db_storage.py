@@ -23,7 +23,15 @@ class DBStorage:
     '''
     __engine = None
     __session = None
-
+    __all_classes = {
+        "State": State,
+         "Place": Place,
+         "Amenity": Amenity,
+         "User": User,
+         "Review": Review,
+         "City":City
+        # Add other classes here
+    }
     def __init__(self):
         '''
         Initializes class
