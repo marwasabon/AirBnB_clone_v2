@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""a Flask web application."""
 from flask import Flask
 from flask import abort, render_template
 from models import storage
