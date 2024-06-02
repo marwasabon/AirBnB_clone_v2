@@ -19,7 +19,7 @@ class State(BaseModel, Base):
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
-        def cities(self):
+        def get_cities(self):
             obj = models.storage.all(City)
             ls = [v for k, v in obj.items() if v.state_id == self.id]
             sorted(ls, key=lambda city: city.name)

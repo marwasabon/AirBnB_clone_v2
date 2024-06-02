@@ -24,5 +24,5 @@ class Review(BaseModel, Base):
         ForeignKey('users.id'),
         nullable=False
     )
-    #user = relationship('User', back_populates='reviews')
-    #place = relationship('Place', back_populates='reviews')
+# user = relationship('User', back_populates='reviews')
+# place = relationship('Place', back_populates='reviews')
